@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="Temperature Sensor"
             android:id="@+id/mSubText"
-            android:textColor="#ffffff"
+            android:textColor="#75ffffff"
             android:textSize="7.5sp"/>
 
     </LinearLayout>

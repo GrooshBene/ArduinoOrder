@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ArduinoOrder.iml" filepath="$PROJECT_DIR$/ArduinoOrder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ArduinoOrderProject.iml" filepath="$PROJECT_DIR$/ArduinoOrderProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
