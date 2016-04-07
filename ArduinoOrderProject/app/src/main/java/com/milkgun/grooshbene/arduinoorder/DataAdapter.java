@@ -51,7 +51,7 @@ public class DataAdapter extends ArrayAdapter<CData> {
             view = v;
         }
         // 자료를 받는다.
-        final CData data = this.getItem(position);
+        CData data = this.getItem(position);
         if (data != null) {
             //화면 출력
             phone = (TextView)view.findViewById(R.id.mMainText);
@@ -66,5 +66,10 @@ public class DataAdapter extends ArrayAdapter<CData> {
             mLinearLayout.setBackgroundColor(data.getColor());
         }
         return view;
+    }
+
+    @Override
+    public CData getItem(int position) {
+        return super.getItem(position);
     }
 }

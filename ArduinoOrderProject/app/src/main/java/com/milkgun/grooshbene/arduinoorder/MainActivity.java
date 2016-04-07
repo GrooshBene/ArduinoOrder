@@ -1,14 +1,21 @@
 package com.milkgun.grooshbene.arduinoorder;
 
 import android.app.ActionBar;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
@@ -19,25 +26,29 @@ import java.util.ArrayList;
  */
 //    public CData(Context context,String text_, String subText_, int image_, int color_, int subColor_) {
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
     GridView mGridView;
     ArrayList<CData> mArrayList;
     ArrayAdapter<CData> mAdapter;
     android.support.v7.app.ActionBar mActionBar;
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mToggle;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mGridView = (GridView)findViewById(R.id.mGridView);
+        mToolbar = (Toolbar)findViewById(R.id.toolbar);
         mArrayList = new ArrayList<CData>();
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mAdapter = new DataAdapter(MainActivity.this, mArrayList);
-        mActionBar = getSupportActionBar();
-        mActionBar.setTitle(Html.fromHtml("<font color='#2DC1A8'>DashBoard</font>"));
+        setSupportActionBar(mToolbar);
+        mToolbar.setTitleTextColor(R.color.colorActionBarText);
+        mToolbar.setNavigationIcon(R.drawable.menu);
         mGridView.setAdapter(mAdapter);
+        mGridView.setOnItemClickListener(this);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name);
         mDrawerLayout.setDrawerListener(mToggle);
         mAdapter.add(new CData(getApplicationContext(), "온도 측정 센서", "Temperature Sensor", R.drawable.ic_sensor_temp, Color.rgb(239, 154, 154), Color.rgb(229, 155, 155)));
@@ -51,4 +62,41 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+// Sync the toggle state after onRestoreInstanceState has occurred.
+        mToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.e("griditem", String.valueOf(mAdapter.getItem(position).getText()));
+        Intent intent = new Intent(MainActivity.this, DialogPopup.class);
+        intent.putExtra("title", mAdapter.getItem(position).getText());
+        startActivity(intent);
+    }
+
 }
